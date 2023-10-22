@@ -3,9 +3,9 @@ import { ChatData } from "../types";
 import OpenAI from "openai";
 import {ChatCompletionMessageParam} from "openai/resources/chat";
 
-class LLMEngineBase {
-  async chat_completion(messages: ChatCompletionMessageParam[], manifest: Manifest, verbose: boolean) {
-  }
+abstract class LLMEngineBase {
+  abstract chat_completion(messages: ChatCompletionMessageParam[], manifest: Manifest, verbose: boolean): Promise<{role: string, res: unknown, function_call: unknown}>;
+
 }
 class LLMEngineOpenAIGPT extends LLMEngineBase {
   openai: OpenAI;
@@ -30,7 +30,7 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     const res = answer.content;
     const role = answer.role
 
-    const function_call = (functions) ? 
+    const function_call = (functions);
     
     return { role, res, function_call }
 
