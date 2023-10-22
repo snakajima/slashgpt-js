@@ -39,7 +39,7 @@ class ChatSession {
     name?: string,
     function_data?: any,
   ) {
-    this.history.append_message({ role, content, name, preset });
+    this.history.append_message({ role, content, name, preset, function_data });
   }
   append_user_question(message: string) {
     const post_message = this.manifest.format_question(message);
