@@ -4,8 +4,8 @@ import fs from "fs";
 import path from "path";
 import YAML from "yaml";
 
-import ChatSession from "../src/chat_session";
-import ChatConfig from "../src/chat_config";
+import { ChatSession } from "../src/";
+import { ChatConfig } from "../src/";
 
 import { print_bot } from "../src/chat_utils";
 
