@@ -25,7 +25,15 @@ const main = async () => {
       print_bot(session.botname(), data);
     }
   };
-  
+
+
+
+  const question = "太陽系の惑星の相関図";
+  session.append_user_question(question);
+  await session.call_loop(callback);
+
+  console.log(session.history)
+/*
   for (;;) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     const question = await new Promise(resolve => rl.question(`${session.username}:`, input_str => { rl.close(); resolve(input_str);})) as string;
@@ -35,7 +43,7 @@ const main = async () => {
       await session.call_loop(callback);
     }
   }
-
+*/
 };
 
 main();

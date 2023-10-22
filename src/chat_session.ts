@@ -53,17 +53,17 @@ class ChatSession {
       this.manifest,
       true,
     );
-    console.log(function_call);
-    if (role && res) {
+    if (role) {
       if (function_call) {
+        console.log(function_call.function_data());
         this.append_message(
           role,
-          res,
+          res || "",
           false,
           undefined,
           function_call.function_data(),
         );
-      } else {
+      } if (res) {
         this.append_message(role, res, false);
       }
     }
