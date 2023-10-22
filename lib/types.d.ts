@@ -13,4 +13,5 @@ export type ChatData = {
     content: string;
     name?: string;
     preset?: boolean;
+    function_data?: any;
 };
