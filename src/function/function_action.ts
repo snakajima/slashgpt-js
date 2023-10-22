@@ -1,6 +1,5 @@
 class FuctionAction {
-  constructor() {
-  }
+  constructor() {}
 }
 
 export default FuctionAction;

@@ -3,14 +3,14 @@ import ChatHistory from "../chat_history";
 
 class FunctionCall {
   private manifest: Manifest;
-  private function_call_data: Record<string,string>;
+  private function_call_data: Record<string, string>;
 
   private function_name: string;
-  private call_arguments: Record<string, unknown>
-  
-  constructor(data: Record<string,string>, manifest: Manifest) {
+  private call_arguments: Record<string, unknown>;
+
+  constructor(data: Record<string, string>, manifest: Manifest) {
     this.function_call_data = data;
-    console.log( this.function_call_data)
+    console.log(this.function_call_data);
     this.manifest = manifest;
     //
     this.function_name = this.name();
@@ -23,7 +23,7 @@ class FunctionCall {
     };
   }
   name() {
-    return this.function_call_data.name
+    return this.function_call_data.name;
   }
   get_call_arguments() {
     const call_arguments = this.function_call_data.arguments;
@@ -34,18 +34,22 @@ class FunctionCall {
         console.log(e);
       }
     }
-    return call_arguments
+    return call_arguments;
   }
-  process_function_call(history: ChatHistory,  verbose: boolean = false) {
+  process_function_call(history: ChatHistory, verbose: boolean = false) {
     if (!this.function_name) {
-      return { function_message: null, function_name: null, should_call_llm: false }
+      return {
+        function_message: null,
+        function_name: null,
+        should_call_llm: false,
+      };
     }
     return {
-      function_message: "", 
+      function_message: "",
       function_name: this.function_name,
       should_call_llm: false,
       call_arguments: this.call_arguments,
-    }
+    };
   }
 }
 

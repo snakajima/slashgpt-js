@@ -2,11 +2,11 @@ export type ManifestData = {
   title: string;
   about: string;
   bot: string;
-  temperature: number:
-  prompt: string[]
+  temperature: number;
+  prompt: string[];
   actions: any;
   sample: string;
-  functions?: string | Record<string,string>
+  functions?: string | Record<string, string>;
 };
 
 export type ChatData = {
