@@ -12,7 +12,12 @@ class ChatHistory {
   messages() {
     return this.repository;
   }
- 
+
+  last_message() {
+    if (this.repository.length > 0) {
+      return this.repository[this.repository.length - 1];
+    }
+  }
 }
 
 export default ChatHistory;

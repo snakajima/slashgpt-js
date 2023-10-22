@@ -1,11 +1,13 @@
-import Manifest from "../manifest";
 import { ChatData } from "../types";
+
+import Manifest from "../manifest";
+import FunctionCall from "../function/function_call";
+
 import OpenAI from "openai";
-import {ChatCompletionMessageParam} from "openai/resources/chat";
+import { ChatCompletionMessageParam } from "openai/resources/chat";
 
 abstract class LLMEngineBase {
-  abstract chat_completion(messages: ChatCompletionMessageParam[], manifest: Manifest, verbose: boolean): Promise<{role: string, res: unknown, function_call: unknown}>;
-
+  abstract chat_completion(messages: ChatCompletionMessageParam[], manifest: Manifest, verbose: boolean): Promise<{role: string, res: string | null, function_call: FunctionCall | null}>;
 }
 class LLMEngineOpenAIGPT extends LLMEngineBase {
   openai: OpenAI;
@@ -26,11 +28,11 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     });
     
     const answer = chatCompletion.choices[0].message;
-    // console.log(chatCompletion.choices[0]);
     const res = answer.content;
     const role = answer.role
 
-    const function_call = (functions);
+    // answer["function_call"] may be string, but actucally dict.
+    const function_call = (functions && answer["function_call"]) ? new FunctionCall(answer["function_call"] as any, manifest) : null;
     
     return { role, res, function_call }
 
@@ -47,7 +49,7 @@ class LlmModel {
     return { role, content } as ChatCompletionMessageParam
   }
   async generate_response(messages: ChatData[], manifest: Manifest, verbose: boolean) {
-    await this.engine.chat_completion(messages.map(this.conv), manifest, verbose)
+    return await this.engine.chat_completion(messages.map(this.conv), manifest, verbose)
   }
 }
 
