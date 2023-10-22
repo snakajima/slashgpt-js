@@ -1,6 +1,8 @@
 import { ManifestData } from "./types";
 import Manifest from "./manifest";
 import ChatHistory from "./chat_history";
+import ChatConfig from "./chat_config";
+import LlmModel from "./llms/model";
 
 class ChatSession {
   public username: string;
@@ -8,13 +10,22 @@ class ChatSession {
   public history: ChatHistory;
   public prompt: string;
   
-  constructor(manifest_data: ManifestData) {
+  private llm_model: LlmModel;
+  private config: ChatConfig;
+  
+  constructor(config: ChatConfig, manifest_data: ManifestData) {
+    this.config = config;
+
     this.username = "you!"
-    this.manifest = new Manifest(manifest_data);
+    this.manifest = new Manifest(manifest_data, config.base_path);
     this.history = new ChatHistory();
     
     this.prompt = this.manifest.prompt_data()
+    if (this.prompt) {
+      this.append_message("system", this.prompt, true);
+    }
     
+    this.llm_model = new LlmModel();
   }
   
   botname() {
@@ -29,13 +40,16 @@ class ChatSession {
     this.append_message("user", post_message, false);
   }
 
-  call_llm() {
+  async call_llm() {
+    const messages = this.history.messages();
+    await this.llm_model.generate_response(messages, this.manifest, true);
     // const {res, function_call} = { res:{}, function_call: process_function_call: () => {}};
+
     return {res: "", function_call: {}}
   }
 
-  public call_loop(callback: (callback_type: string, data: string) => void) {
-    const { res, function_call } = this.call_llm();
+  public async call_loop(callback: (callback_type: string, data: string) => void) {
+    const { res, function_call } = await this.call_llm();
 
     if (res) {
       callback("bot", res)

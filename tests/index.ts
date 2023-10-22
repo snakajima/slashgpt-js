@@ -1,21 +1,24 @@
 import readline from "readline";
 
 import fs from "fs";
+import path from "path";
 import YAML from "yaml";
 
 import ChatSession from "../src/chat_session";
-// import ChatConfig from "../src/chat_config";
+import ChatConfig from "../src/chat_config";
 
 import { print_bot, print_info } from "../src/chat_utils";
 
-const file = "./manifests/kgraph/knowledge.yml";
+const base_path = path.resolve(__dirname + "/../");
+
+const file = base_path + "/manifests/kgraph/knowledge.yml";
 
 const main = async () => {
   const manifest_file = fs.readFileSync(file, "utf8");
   const manifest = YAML.parse(manifest_file);
-  console.log(manifest);
+  const config = new ChatConfig(base_path);
   
-  const session = new ChatSession(manifest);
+  const session = new ChatSession(config, manifest);
 
   const callback = (callback_type: string, data: string) => {
     if (callback_type === "bot") {
@@ -29,7 +32,7 @@ const main = async () => {
     
     if (question) {
       session.append_user_question(session.manifest.format_question(question))
-      session.call_loop(callback);
+      await session.call_loop(callback);
     }
   }
 
