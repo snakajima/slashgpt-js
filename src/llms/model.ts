@@ -1,4 +1,4 @@
-import { ChatData } from "../types";
+import { ChatData, FunctionCallUsage } from "../types";
 
 import Manifest from "../manifest";
 import FunctionCall from "../function/function_call";
@@ -15,6 +15,7 @@ abstract class LLMEngineBase {
     role: string;
     res: string | null;
     function_call: FunctionCall | null;
+    usage: FunctionCallUsage | null;
   }>;
 }
 class LLMEngineOpenAIGPT extends LLMEngineBase {
@@ -29,7 +30,7 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     manifest: Manifest,
     verbose: boolean,
   ) {
-    console.log(messages);
+    // console.log(messages);
     const functions = manifest.functions();
 
     const chatCompletion = await this.openai.chat.completions.create({
@@ -41,14 +42,15 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     const answer = chatCompletion.choices[0].message;
     const res = answer.content;
     const role = answer.role;
-
+    const usage = chatCompletion.usage as FunctionCallUsage
+    
     // answer["function_call"] may be string, but actucally dict.
     const function_call =
       functions && answer["function_call"]
         ? new FunctionCall(answer["function_call"] as any, manifest)
         : null;
 
-    return { role, res, function_call };
+    return { role, res, function_call, usage};
   }
 }
 class LlmModel {

@@ -3,6 +3,7 @@ import Manifest from "./manifest";
 import ChatHistory from "./chat_history";
 import ChatConfig from "./chat_config";
 import LlmModel from "./llms/model";
+import { FunctionCallUsage } from "./types";
 
 class ChatSession {
   public username: string;
@@ -38,8 +39,9 @@ class ChatSession {
     preset: boolean,
     name?: string,
     function_data?: any,
+    usage?: FunctionCallUsage | null,
   ) {
-    this.history.append_message({ role, content, name, preset, function_data });
+    this.history.append_message({ role, content, name, preset, function_data, usage });
   }
   append_user_question(message: string) {
     const post_message = this.manifest.format_question(message);
@@ -48,7 +50,7 @@ class ChatSession {
 
   async call_llm() {
     const messages = this.history.messages();
-    const { role, res, function_call } = await this.llm_model.generate_response(
+    const { role, res, function_call, usage } = await this.llm_model.generate_response(
       messages,
       this.manifest,
       true,
@@ -62,6 +64,7 @@ class ChatSession {
           false,
           undefined,
           function_call.function_data(),
+          usage,
         );
       } if (res) {
         this.append_message(role, res, false);
