@@ -1,4 +1,4 @@
-import { ChatData, FunctionCallUsage } from "../types";
+import { ChatData, LlmUsage } from "../types";
 
 import Manifest from "../manifest";
 import FunctionCall from "../function/function_call";
@@ -15,7 +15,7 @@ abstract class LLMEngineBase {
     role: string;
     res: string | null;
     function_call: FunctionCall | null;
-    usage: FunctionCallUsage | null;
+    usage: LlmUsage | null;
   }>;
 }
 class LLMEngineOpenAIGPT extends LLMEngineBase {
@@ -42,7 +42,7 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     const answer = chatCompletion.choices[0].message;
     const res = answer.content;
     const role = answer.role;
-    const usage = chatCompletion.usage as FunctionCallUsage
+    const usage = chatCompletion.usage as LlmUsage
     
     // answer["function_call"] may be string, but actucally dict.
     const function_call =

@@ -3,7 +3,7 @@ import Manifest from "./manifest";
 import ChatHistory from "./chat_history";
 import ChatConfig from "./chat_config";
 import LlmModel from "./llms/model";
-import { FunctionCallUsage } from "./types";
+import { LlmUsage } from "./types";
 
 class ChatSession {
   public username: string;
@@ -37,9 +37,9 @@ class ChatSession {
     role: string,
     content: string,
     preset: boolean,
+    usage?: LlmUsage | null,
     name?: string,
     function_data?: any,
-    usage?: FunctionCallUsage | null,
   ) {
     this.history.append_message({ role, content, name, preset, function_data, usage });
   }
@@ -62,12 +62,12 @@ class ChatSession {
           role,
           res || "",
           false,
+          usage,
           undefined,
           function_call.function_data(),
-          usage,
         );
       } if (res) {
-        this.append_message(role, res, false);
+        this.append_message(role, res, false, usage);
       }
     }
     return { res, function_call };
