@@ -1,3 +1,8 @@
+export type LlmUsage = {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+};
 export type ManifestData = {
     title: string;
     about: string;
@@ -7,6 +12,7 @@ export type ManifestData = {
     actions: any;
     sample: string;
     functions?: string | Record<string, string>;
+    function_call?: string;
 };
 export type ChatData = {
     role: string;
@@ -14,4 +20,5 @@ export type ChatData = {
     name?: string;
     preset?: boolean;
     function_data?: any;
+    usage?: LlmUsage | null;
 };

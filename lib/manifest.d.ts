@@ -8,5 +8,8 @@ declare class Manifest {
     format_question(message: string): string;
     botname(): string;
     functions(): any;
+    function_call(): {
+        name: string;
+    } | undefined;
 }
 export default Manifest;
