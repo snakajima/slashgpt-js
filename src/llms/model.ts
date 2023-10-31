@@ -32,11 +32,12 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
   ) {
     // console.log(messages);
     const functions = manifest.functions();
-
+    const function_call_param = manifest.function_call()
     const chatCompletion = await this.openai.chat.completions.create({
       messages,
       model: "gpt-3.5-turbo",
       functions,
+      function_call: function_call_param
     });
 
     const answer = chatCompletion.choices[0].message;
