@@ -1,4 +1,4 @@
-import { ChatData } from "../types";
+import { ChatData, LlmUsage } from "../types";
 import Manifest from "../manifest";
 import FunctionCall from "../function/function_call";
 import OpenAI from "openai";
@@ -10,6 +10,7 @@ declare class LlmModel {
         role: string;
         res: string | null;
         function_call: FunctionCall | null;
+        usage: LlmUsage | null;
     }>;
 }
 export default LlmModel;

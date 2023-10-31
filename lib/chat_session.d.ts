@@ -2,6 +2,7 @@ import { ManifestData } from "./types";
 import Manifest from "./manifest";
 import ChatHistory from "./chat_history";
 import ChatConfig from "./chat_config";
+import { LlmUsage } from "./types";
 declare class ChatSession {
     username: string;
     manifest: Manifest;
@@ -11,7 +12,7 @@ declare class ChatSession {
     private config;
     constructor(config: ChatConfig, manifest_data: ManifestData);
     botname(): string;
-    append_message(role: string, content: string, preset: boolean, name?: string, function_data?: any): void;
+    append_message(role: string, content: string, preset: boolean, usage?: LlmUsage | null, name?: string, function_data?: any): void;
     append_user_question(message: string): void;
     call_llm(): Promise<{
         res: string | null;
