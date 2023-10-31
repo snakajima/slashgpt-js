@@ -9,6 +9,7 @@ export type ManifestData = {
   actions: any;
   sample: string;
   functions?: string | Record<string, string>;
+  function_call?: string;
 };
 
 export type ChatData = {
