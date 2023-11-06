@@ -32,26 +32,26 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
   ) {
     // console.log(messages);
     const functions = manifest.functions();
-    const function_call_param = manifest.function_call()
+    const function_call_param = manifest.function_call();
     const chatCompletion = await this.openai.chat.completions.create({
       messages,
       model: "gpt-3.5-turbo",
       functions,
-      function_call: function_call_param
+      function_call: function_call_param,
     });
 
     const answer = chatCompletion.choices[0].message;
     const res = answer.content;
     const role = answer.role;
-    const usage = chatCompletion.usage as LlmUsage
-    
+    const usage = chatCompletion.usage as LlmUsage;
+
     // answer["function_call"] may be string, but actucally dict.
     const function_call =
       functions && answer["function_call"]
         ? new FunctionCall(answer["function_call"] as any, manifest)
         : null;
 
-    return { role, res, function_call, usage};
+    return { role, res, function_call, usage };
   }
 }
 class LlmModel {

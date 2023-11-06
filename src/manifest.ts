@@ -43,7 +43,7 @@ class Manifest {
   }
   public function_call() {
     if (this.data.functions && this.data.function_call) {
-      return { name: this.data.function_call}
+      return { name: this.data.function_call };
     }
     return undefined;
   }

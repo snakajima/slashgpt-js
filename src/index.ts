@@ -6,5 +6,15 @@ import ChatHistory from "./chat_history";
 export * from "./chat_utils";
 
 import LlmModel from "./llms/model";
+import { LlmUsage, ManifestData, ChatData } from "./types";
 
-export { ChatSession, ChatConfig, Manifest, ChatHistory, LlmModel }
+export {
+  ChatSession,
+  ChatConfig,
+  Manifest,
+  ChatHistory,
+  LlmModel,
+  LlmUsage,
+  ManifestData,
+  ChatData,
+};

@@ -41,7 +41,14 @@ class ChatSession {
     name?: string,
     function_data?: any,
   ) {
-    this.history.append_message({ role, content, name, preset, function_data, usage });
+    this.history.append_message({
+      role,
+      content,
+      name,
+      preset,
+      function_data,
+      usage,
+    });
   }
   append_user_question(message: string) {
     const post_message = this.manifest.format_question(message);
@@ -50,11 +57,8 @@ class ChatSession {
 
   async call_llm() {
     const messages = this.history.messages();
-    const { role, res, function_call, usage } = await this.llm_model.generate_response(
-      messages,
-      this.manifest,
-      true,
-    );
+    const { role, res, function_call, usage } =
+      await this.llm_model.generate_response(messages, this.manifest, true);
     if (role) {
       if (function_call) {
         console.log(function_call.function_data());
@@ -66,7 +70,8 @@ class ChatSession {
           undefined,
           function_call.function_data(),
         );
-      } if (res) {
+      }
+      if (res) {
         this.append_message(role, res, false, usage);
       }
     }

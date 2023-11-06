@@ -1,4 +1,8 @@
-export type LlmUsage = { prompt_tokens: number, completion_tokens: number, total_tokens: number };
+export type LlmUsage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+};
 
 export type ManifestData = {
   title: string;
