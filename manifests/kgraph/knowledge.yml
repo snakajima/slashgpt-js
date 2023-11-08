@@ -5,6 +5,7 @@ prompt:
   - Help the user to understand a topic by describing as a detailed knowledge graph.
 functions: ./resources/functions/knowledge.json
 function_call: knowledge_graph
+model: gpt-3.5-turbo-1106
 actions:
   knowledge_graph:
     type: emit

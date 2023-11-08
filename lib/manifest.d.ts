@@ -7,6 +7,7 @@ declare class Manifest {
     prompt_data(): string;
     format_question(message: string): string;
     botname(): string;
+    model_name(): string;
     functions(): any;
     function_call(): {
         name: string;

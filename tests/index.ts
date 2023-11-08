@@ -1,4 +1,4 @@
-import readline from "readline";
+// import readline from "readline";
 
 import fs from "fs";
 import path from "path";
@@ -32,7 +32,7 @@ const main = async () => {
   session.append_user_question(question);
   await session.call_loop(callback);
 
-  console.log(session.history)
+  console.log(session.history);
 /*
   for (;;) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });

@@ -29,6 +29,9 @@ class Manifest {
   public botname() {
     return this.data.bot || `Agent(${this.agent_name})`;
   }
+  public model_name() {
+    return this.data.model;
+  }
   public functions() {
     const functions = this.data.functions;
     if (functions) {

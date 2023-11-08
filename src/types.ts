@@ -9,6 +9,7 @@ export type ManifestData = {
   about: string;
   bot: string;
   temperature: number;
+  model: string;
   prompt: string[];
   actions: any;
   sample: string;
