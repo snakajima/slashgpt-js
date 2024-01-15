@@ -23,7 +23,9 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
 
   constructor(apiKey?: string) {
     super();
-    this.openai = new OpenAI({apiKey: apiKey ?? process.env['OPENAI_API_KEY']);
+    this.openai = new OpenAI({
+      apiKey: apiKey ?? process.env["OPENAI_API_KEY"],
+    });
   }
   async chat_completion(
     messages: ChatCompletionMessageParam[],
