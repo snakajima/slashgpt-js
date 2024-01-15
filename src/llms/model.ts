@@ -3,7 +3,7 @@ import { ChatData, LlmUsage } from "../types";
 import Manifest from "../manifest";
 import FunctionCall from "../function/function_call";
 
-import OpenAI from "openai";
+import OpenAI, { ClientOptions } from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/chat";
 
 abstract class LLMEngineBase {
@@ -21,11 +21,9 @@ abstract class LLMEngineBase {
 class LLMEngineOpenAIGPT extends LLMEngineBase {
   openai: OpenAI;
 
-  constructor(apiKey?: string) {
+  constructor(option?: ClientOptions) {
     super();
-    this.openai = new OpenAI({
-      apiKey: apiKey ?? process.env["OPENAI_API_KEY"],
-    });
+    this.openai = option ? new OpenAI(option) : new OpenAI();
   }
   async chat_completion(
     messages: ChatCompletionMessageParam[],
@@ -61,8 +59,8 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
 class LlmModel {
   private engine: LLMEngineBase;
 
-  constructor(apiKey?: string) {
-    this.engine = new LLMEngineOpenAIGPT(apiKey);
+  constructor(option?: ClientOptions) {
+    this.engine = new LLMEngineOpenAIGPT(option);
   }
   conv(message: ChatData) {
     const { role, content } = message;

@@ -5,6 +5,8 @@ import ChatConfig from "./chat_config";
 import LlmModel from "./llms/model";
 import { LlmUsage } from "./types";
 
+// import { ClientOptions } from "openai";
+
 class ChatSession {
   public username: string;
   public manifest: Manifest;
@@ -14,7 +16,11 @@ class ChatSession {
   private llm_model: LlmModel;
   private config: ChatConfig;
 
-  constructor(config: ChatConfig, manifest_data: ManifestData, apiKey?: string) {
+  constructor(
+    config: ChatConfig,
+    manifest_data: ManifestData,
+    option?: Record<string, any>,
+  ) {
     this.config = config;
 
     this.username = "you!";
@@ -26,7 +32,7 @@ class ChatSession {
       this.append_message("system", this.prompt, true);
     }
 
-    this.llm_model = new LlmModel(apiKey);
+    this.llm_model = new LlmModel(option);
   }
 
   botname() {

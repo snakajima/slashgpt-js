@@ -10,7 +10,7 @@ declare class ChatSession {
     prompt: string;
     private llm_model;
     private config;
-    constructor(config: ChatConfig, manifest_data: ManifestData, apiKey?: string);
+    constructor(config: ChatConfig, manifest_data: ManifestData, option?: Record<string, any>);
     botname(): string;
     append_message(role: string, content: string, preset: boolean, usage?: LlmUsage | null, name?: string, function_data?: any): void;
     append_user_question(message: string): void;
