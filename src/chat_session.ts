@@ -14,7 +14,7 @@ class ChatSession {
   private llm_model: LlmModel;
   private config: ChatConfig;
 
-  constructor(config: ChatConfig, manifest_data: ManifestData) {
+  constructor(config: ChatConfig, manifest_data: ManifestData, apiKey?: string) {
     this.config = config;
 
     this.username = "you!";
@@ -26,7 +26,7 @@ class ChatSession {
       this.append_message("system", this.prompt, true);
     }
 
-    this.llm_model = new LlmModel();
+    this.llm_model = new LlmModel(apiKey);
   }
 
   botname() {

@@ -61,8 +61,8 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
 class LlmModel {
   private engine: LLMEngineBase;
 
-  constructor() {
-    this.engine = new LLMEngineOpenAIGPT();
+  constructor(apiKey?: string) {
+    this.engine = new LLMEngineOpenAIGPT(apiKey);
   }
   conv(message: ChatData) {
     const { role, content } = message;
