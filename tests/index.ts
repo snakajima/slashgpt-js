@@ -17,7 +17,7 @@ const main = async () => {
   const manifest_file = fs.readFileSync(file, "utf8");
   const manifest = YAML.parse(manifest_file);
   const config = new ChatConfig(base_path);
-  
+
   const session = new ChatSession(config, manifest);
 
   const callback = (callback_type: string, data: string) => {
@@ -26,14 +26,12 @@ const main = async () => {
     }
   };
 
-
-
   const question = "太陽系の惑星の相関図";
   session.append_user_question(question);
   await session.call_loop(callback);
 
   console.log(session.history);
-/*
+  /*
   for (;;) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     const question = await new Promise(resolve => rl.question(`${session.username}:`, input_str => { rl.close(); resolve(input_str);})) as string;
