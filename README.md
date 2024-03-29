@@ -1,6 +1,8 @@
 # SlashGPT js
 
-This is ported from Python.
+This is ported from Python. This runs in the browser and Node.js.
+Unlike the Python version, it does not support chat in the cli. This is software used as a library.
+
 It does not support the feature to execute Python native code.
 
 The current status is...
