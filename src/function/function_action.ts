@@ -4,7 +4,7 @@ class FuctionAction {
   constructor(function_action_data: Record<string, string>) {
     this.function_action_data = function_action_data;
   }
-  public call_api(
+  public async call_api(
     name: string,
     call_arguments: Record<string, unknown>,
     base_dir: string,

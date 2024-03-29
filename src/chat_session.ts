@@ -65,27 +65,14 @@ class ChatSession {
     const messages = this.history.messages();
     const { role, res, function_call, usage } =
       await this.llm_model.generate_response(messages, this.manifest, true);
-    if (role) {
-      if (function_call) {
-        console.log(function_call.function_data());
-        this.append_message(
-          role,
-          res || "",
-          false,
-          usage,
-          undefined,
-          function_call.function_data(),
-        );
-      }
-      if (res) {
-        this.append_message(role, res, false, usage);
-      }
+    if (role && res) {
+      this.append_message(role, res, false, usage);
     }
     return { res, function_call };
   }
 
   public async call_loop(
-    callback: (callback_type: string, data: string) => void,
+    callback: (callback_type: string, data: unknown) => void,
   ) {
     const { res, function_call } = await this.call_llm();
 
@@ -95,15 +82,14 @@ class ChatSession {
     if (function_call) {
       // not support emit yet.
       const { function_message, function_name, should_call_llm } =
-        function_call.process_function_call(this.history, true);
-      /*
+        await function_call.process_function_call(this.history, true);
+
       if (function_message) {
-        callback("function", {function_name, function_message})
+        callback("function", { function_name, function_message });
       }
       if (should_call_llm) {
-        this.call_loop(callback)
+        await this.call_loop(callback);
       }
-      */
     }
   }
 }

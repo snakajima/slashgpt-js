@@ -11,7 +11,7 @@
       "template": "./resources/action_templates/calendar.ics",
       "template_message": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//My Calendar//NONSGML v1.0//EN\nBEGIN:VEVENT\nDTSTART:{DTSTART}\nDTEND:{DTEND}\nSUMMARY:{SUMMARY}\nDESCRIPTION:{DESCRIPTION}\nLOCATION:{LOCATION}\nEND:VEVENT\nEND:VCALENDAR",
       "mime_type": "text/calendar",
-      "message": "{{ 'result':'Success', 'invitation_link': '{url}' }}"
+      "message": "{ 'result':'Success', 'invitation_link': '{url}' }"
     },
     "send_invitation": { "type": "message_template", "message":"Success. The invitation was sent to {recipients}" }
   },

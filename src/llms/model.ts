@@ -30,11 +30,10 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     manifest: Manifest,
     verbose: boolean,
   ) {
-    // console.log(messages);
     const functions = manifest.functions();
     const function_call_param = manifest.function_call();
     const model_name = manifest.model_name();
-    // console.log(model_name);
+
     const chatCompletion = await this.openai.chat.completions.create({
       messages,
       model: model_name || "gpt-3.5-turbo",
@@ -63,8 +62,8 @@ class LlmModel {
     this.engine = new LLMEngineOpenAIGPT(option);
   }
   conv(message: ChatData) {
-    const { role, content } = message;
-    return { role, content } as ChatCompletionMessageParam;
+    const { role, content, name } = message;
+    return { role, content, name } as ChatCompletionMessageParam;
   }
   async generate_response(
     messages: ChatData[],

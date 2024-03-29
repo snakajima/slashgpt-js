@@ -27,9 +27,9 @@ export const readManifestData = (fileName: string) => {
   throw new Error("No file exists " + fileName);
 };
 
-export const callback = (callback_type: string, data: string) => {
+export const callback = (callback_type: string, data: unknown) => {
   if (callback_type === "bot") {
-    print_bot("bot", data);
+    print_bot("bot", JSON.stringify(data));
   }
 };
 

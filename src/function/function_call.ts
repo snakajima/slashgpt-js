@@ -44,7 +44,10 @@ class FunctionCall {
     }
     return call_arguments;
   }
-  process_function_call(history: ChatHistory, verbose: boolean = false) {
+  public async process_function_call(
+    history: ChatHistory,
+    verbose: boolean = false,
+  ) {
     if (!this.function_name) {
       return {
         function_message: null,
@@ -54,7 +57,7 @@ class FunctionCall {
     }
     const call_arguments = this.get_call_arguments();
 
-    const function_message = (() => {
+    const function_message = await (() => {
       if (this.function_action) {
         return this.function_action.call_api(
           this.function_name,
