@@ -1,5 +1,5 @@
 // put manifest file into manifests/main/
-// json and yaml ( or yml) support. 
+// json and yaml ( or yml) support.
 // run script with open api key
 // OPENAI_API_KEY=sk-xxxxxx npx ts-node tests/run_manifest.ts business.json
 

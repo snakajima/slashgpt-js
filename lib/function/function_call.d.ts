@@ -3,6 +3,7 @@ import ChatHistory from "../chat_history";
 declare class FunctionCall {
     private manifest;
     private function_call_data;
+    private function_action;
     private function_name;
     private call_arguments;
     constructor(data: Record<string, string>, manifest: Manifest);
@@ -18,9 +19,9 @@ declare class FunctionCall {
         should_call_llm: boolean;
         call_arguments?: undefined;
     } | {
-        function_message: string;
+        function_message: void | null;
         function_name: string;
-        should_call_llm: boolean;
+        should_call_llm: false;
         call_arguments: Record<string, unknown>;
     };
 }

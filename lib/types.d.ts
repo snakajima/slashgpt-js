@@ -14,6 +14,7 @@ export type ManifestData = {
     sample: string;
     functions?: string | Record<string, string>;
     function_call?: string;
+    skip_function_result?: boolean;
 };
 export type ChatData = {
     role: string;

@@ -1,4 +1,6 @@
 declare class FuctionAction {
-    constructor();
+    private function_action_data;
+    constructor(function_action_data: Record<string, string>);
+    call_api(): void;
 }
 export default FuctionAction;

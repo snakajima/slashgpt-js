@@ -1,19 +1,27 @@
 import Manifest from "../manifest";
 import ChatHistory from "../chat_history";
+import FunctionAction from "./function_action";
 
 class FunctionCall {
   private manifest: Manifest;
   private function_call_data: Record<string, string>;
+
+  private function_action: FunctionAction | null;
 
   private function_name: string;
   private call_arguments: Record<string, unknown>;
 
   constructor(data: Record<string, string>, manifest: Manifest) {
     this.function_call_data = data;
-    console.log(this.function_call_data);
+    // console.log(this.function_call_data);
     this.manifest = manifest;
-    //
+
     this.function_name = this.name();
+    const actions = this.manifest.actions();
+    this.function_action =
+      actions && actions[this.function_name]
+        ? new FunctionAction(actions[this.function_name])
+        : null;
     this.call_arguments = this.get_call_arguments();
   }
   function_data() {
@@ -44,10 +52,33 @@ class FunctionCall {
         should_call_llm: false,
       };
     }
+    const call_arguments = this.get_call_arguments();
+
+    const function_message = (() => {
+      if (this.function_action) {
+        return this.function_action.call_api(
+          this.function_name,
+          this.call_arguments,
+          this.manifest.base_dir,
+        );
+      }
+      return null;
+    })();
+
+    if (function_message) {
+      history.append_message({
+        role: "function",
+        content: function_message,
+        name: this.function_name,
+      });
+    }
+    const should_call_llm =
+      !this.manifest.skip_function_result() && !!function_message;
+
     return {
-      function_message: "",
+      function_message,
       function_name: this.function_name,
-      should_call_llm: false,
+      should_call_llm,
       call_arguments: this.call_arguments,
     };
   }

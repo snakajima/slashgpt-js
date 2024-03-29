@@ -5,7 +5,7 @@ import { ManifestData } from "./types";
 
 class Manifest {
   private data: ManifestData;
-  private base_dir: string;
+  public base_dir: string;
   private agent_name: string;
 
   constructor(
@@ -44,11 +44,17 @@ class Manifest {
     }
     return null;
   }
+  public actions() {
+    return this.data.actions;
+  }
   public function_call() {
     if (this.data.functions && this.data.function_call) {
       return { name: this.data.function_call };
     }
     return undefined;
+  }
+  public skip_function_result() {
+    return !!this.data.skip_function_result;
   }
 }
 
