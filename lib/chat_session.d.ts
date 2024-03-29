@@ -18,6 +18,6 @@ declare class ChatSession {
         res: string | null;
         function_call: import("./function/function_call").default | null;
     }>;
-    call_loop(callback: (callback_type: string, data: string) => void): Promise<void>;
+    call_loop(callback: (callback_type: string, data: unknown) => void): Promise<void>;
 }
 export default ChatSession;

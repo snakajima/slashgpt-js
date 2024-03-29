@@ -13,16 +13,16 @@ declare class FunctionCall {
     };
     name(): string;
     get_call_arguments(): any;
-    process_function_call(history: ChatHistory, verbose?: boolean): {
+    process_function_call(history: ChatHistory, verbose?: boolean): Promise<{
         function_message: null;
         function_name: null;
         should_call_llm: boolean;
         call_arguments?: undefined;
     } | {
-        function_message: void | null;
+        function_message: string | void | null;
         function_name: string;
-        should_call_llm: false;
+        should_call_llm: boolean;
         call_arguments: Record<string, unknown>;
-    };
+    }>;
 }
 export default FunctionCall;

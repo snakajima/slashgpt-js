@@ -9,7 +9,7 @@ class FunctionCall {
   private function_action: FunctionAction | null;
 
   private function_name: string;
-  private call_arguments: Record<string, unknown>;
+  private call_arguments: Record<string, string>;
 
   constructor(data: Record<string, string>, manifest: Manifest) {
     this.function_call_data = data;
