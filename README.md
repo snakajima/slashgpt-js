@@ -5,7 +5,7 @@ It does not support the feature to execute Python native code.
 
 The current status is...
 
-### Supported manifest items
+## Supported manifest items
 - *title* (string, **required**): Title for the user to see
 - *about* (string, optional): About the manifest (URL, email, github id, or twitter id)
 - *description* (string, optional): Human/LLM readable description of this agent
@@ -18,19 +18,31 @@ The current status is...
 - *skip_function_result* (boolean): skip the chat completion right after the function call.
 
 
-### Not supported manifest items
+## Not supported manifest items
+
+#### for chat
 - *sample* or *smaple...* (string, optional): Sample question (type "/sample" to submit it as the user message)
 - *you* (string, optional): User name. The default is You({agent_name}).
 - *intro* (array of strings, optional): Introduction statements (will be randomly selected)
+
+#### little used
 - *form* (string): format string to extend user's query (e.g. "Write python code to {question}").
 - *result_form* (string): format string to extend function call result.
 - *list* (array of string, optional): {random} will put one of them randomly into the prompt
-- *embeddings* (object, optional):
-  - *name* (string, optional): index name of the embedding vector database
-- *module* (string, optional): location of the Python script to be loaded for function calls
+
 - *function_call* (string, optional): the name of tne function LLM should call
-- *notebook* (boolean): create a new notebook at the beginning of each session (for code_palm2)
-- *stream* (boolean, optional): Enable LLM output streaming (not yet implemented)
 - *logprobs* (number, optional): Number of "next probable tokens" + associated log probabilities to return alongside the output
 - *num_completions* (number, optional): Number of different completions to request from the model per prompt
 - *resource* (string, optional): location of the resource file. Use {resource} to paste it into the prompt
+
+#### Not supported by browser
+- *embeddings* (object, optional):
+  - *name* (string, optional): index name of the embedding vector database
+
+#### for python
+- *module* (string, optional): location of the Python script to be loaded for function calls
+- *notebook* (boolean): create a new notebook at the beginning of each session (for code_palm2)
+
+
+- *stream* (boolean, optional): Enable LLM output streaming (not yet implemented)
+
