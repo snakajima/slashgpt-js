@@ -8,16 +8,10 @@ export const http_request = async (
   http_arguments: Record<string, string>,
 ) => {
   const appkey = { appkey: appkey_value };
-  const headers = Object.keys(__headers).reduce(
-    (tmp: Record<string, string>, key: string) => {
-      tmp[key] = replate_template(
-        { ...(http_arguments || {}), ...appkey },
-        __headers[key],
-      );
-      return tmp;
-    },
-    {},
-  );
+  const headers = Object.keys(__headers).reduce((tmp: Record<string, string>, key: string) => {
+    tmp[key] = replate_template({ ...(http_arguments || {}), ...appkey }, __headers[key]);
+    return tmp;
+  }, {});
 
   const response = await (async () => {
     if (method === "POST") {
@@ -30,13 +24,10 @@ export const http_request = async (
         headers,
       });
     }
-    const http_args = Object.keys(http_arguments).reduce(
-      (tmp: Record<string, string>, key: string) => {
-        tmp[key] = encodeURIComponent(http_arguments[key]);
-        return tmp;
-      },
-      {},
-    );
+    const http_args = Object.keys(http_arguments).reduce((tmp: Record<string, string>, key: string) => {
+      tmp[key] = encodeURIComponent(http_arguments[key]);
+      return tmp;
+    }, {});
     const url = replate_template({ ...http_args, ...appkey }, __url);
     return await fetch(url, { headers });
   })();
@@ -44,8 +35,11 @@ export const http_request = async (
   if (response.status === 200) {
     return response.text();
   }
-  console.log(
-    "Got " + response.status + ":" + response.text() + "from " + __url,
-  );
+  console.log("Got " + response.status + ":" + response.text() + "from " + __url);
   return null;
+};
+
+export const graphQLRequest = async (__url: string, __headers: Record<string, string>, appkey_value: string, http_arguments: Record<string, string>) => {
+  console.log("GRAPH");
+  return "123";
 };

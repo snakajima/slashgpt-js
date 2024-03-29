@@ -18,10 +18,7 @@ class FunctionCall {
 
     this.function_name = this.name();
     const actions = this.manifest.actions();
-    this.function_action =
-      actions && actions[this.function_name]
-        ? new FunctionAction(actions[this.function_name])
-        : null;
+    this.function_action = actions && actions[this.function_name] ? new FunctionAction(actions[this.function_name]) : null;
     this.call_arguments = this.get_call_arguments();
   }
   function_data() {
@@ -44,10 +41,7 @@ class FunctionCall {
     }
     return call_arguments;
   }
-  public async process_function_call(
-    history: ChatHistory,
-    verbose: boolean = false,
-  ) {
+  public async process_function_call(history: ChatHistory, verbose: boolean = false) {
     if (!this.function_name) {
       return {
         function_message: null,
@@ -59,11 +53,7 @@ class FunctionCall {
 
     const function_message = await (() => {
       if (this.function_action) {
-        return this.function_action.call_api(
-          this.function_name,
-          this.call_arguments,
-          this.manifest.base_dir,
-        );
+        return this.function_action.call_api(this.function_name, this.call_arguments, this.manifest.base_dir);
       }
       return null;
     })();
@@ -75,8 +65,7 @@ class FunctionCall {
         name: this.function_name,
       });
     }
-    const should_call_llm =
-      !this.manifest.skip_function_result() && !!function_message;
+    const should_call_llm = !this.manifest.skip_function_result() && !!function_message;
 
     return {
       function_message,

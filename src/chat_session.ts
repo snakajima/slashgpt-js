@@ -16,11 +16,7 @@ class ChatSession {
   private llm_model: LlmModel;
   private config: ChatConfig;
 
-  constructor(
-    config: ChatConfig,
-    manifest_data: ManifestData,
-    option?: Record<string, any>,
-  ) {
+  constructor(config: ChatConfig, manifest_data: ManifestData, option?: Record<string, any>) {
     this.config = config;
 
     this.username = "you!";
@@ -39,14 +35,7 @@ class ChatSession {
     return this.manifest.botname();
   }
 
-  append_message(
-    role: string,
-    content: string,
-    preset: boolean,
-    usage?: LlmUsage | null,
-    name?: string,
-    function_data?: any,
-  ) {
+  append_message(role: string, content: string, preset: boolean, usage?: LlmUsage | null, name?: string, function_data?: any) {
     this.history.append_message({
       role,
       content,
@@ -63,17 +52,14 @@ class ChatSession {
 
   async call_llm() {
     const messages = this.history.messages();
-    const { role, res, function_call, usage } =
-      await this.llm_model.generate_response(messages, this.manifest, true);
+    const { role, res, function_call, usage } = await this.llm_model.generate_response(messages, this.manifest, true);
     if (role && res) {
       this.append_message(role, res, false, usage);
     }
     return { res, function_call };
   }
 
-  public async call_loop(
-    callback: (callback_type: string, data: unknown) => void,
-  ) {
+  public async call_loop(callback: (callback_type: string, data: unknown) => void) {
     const { res, function_call } = await this.call_llm();
 
     if (res) {
@@ -81,8 +67,7 @@ class ChatSession {
     }
     if (function_call) {
       // not support emit yet.
-      const { function_message, function_name, should_call_llm } =
-        await function_call.process_function_call(this.history, true);
+      const { function_message, function_name, should_call_llm } = await function_call.process_function_call(this.history, true);
 
       if (function_message) {
         callback("function", { function_name, function_message });

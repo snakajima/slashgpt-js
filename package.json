@@ -1,7 +1,7 @@
 {
   "name": "slashgpt",
   "version": "0.0.1",
-  "description": "",
+  "description": "This is ported from Python. This runs in the browser and Node.js. Unlike the Python version, it does not support chat in the cli. This is software used as a library.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/isamu/slashgpt-js.git"
   },
-  "author": "",
+  "author": "Isamu Arimoto",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/isamu/slashgpt-js/issues"
@@ -32,5 +32,10 @@
   "dependencies": {
     "openai": "^4.12.4",
     "yaml": "^2.3.3"
+  },
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
   }
 }

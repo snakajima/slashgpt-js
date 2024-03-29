@@ -8,13 +8,4 @@ export * from "./chat_utils";
 import LlmModel from "./llms/model";
 import { LlmUsage, ManifestData, ChatData } from "./types";
 
-export {
-  ChatSession,
-  ChatConfig,
-  Manifest,
-  ChatHistory,
-  LlmModel,
-  LlmUsage,
-  ManifestData,
-  ChatData,
-};
+export { ChatSession, ChatConfig, Manifest, ChatHistory, LlmModel, LlmUsage, ManifestData, ChatData };

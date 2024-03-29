@@ -25,11 +25,7 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     super();
     this.openai = option ? new OpenAI(option) : new OpenAI();
   }
-  async chat_completion(
-    messages: ChatCompletionMessageParam[],
-    manifest: Manifest,
-    verbose: boolean,
-  ) {
+  async chat_completion(messages: ChatCompletionMessageParam[], manifest: Manifest, verbose: boolean) {
     const functions = manifest.functions();
     const function_call_param = manifest.function_call();
     const model_name = manifest.model_name();
@@ -47,10 +43,7 @@ class LLMEngineOpenAIGPT extends LLMEngineBase {
     const usage = chatCompletion.usage as LlmUsage;
 
     // answer["function_call"] may be string, but actucally dict.
-    const function_call =
-      functions && answer["function_call"]
-        ? new FunctionCall(answer["function_call"] as any, manifest)
-        : null;
+    const function_call = functions && answer["function_call"] ? new FunctionCall(answer["function_call"] as any, manifest) : null;
 
     return { role, res, function_call, usage };
   }
@@ -65,16 +58,8 @@ class LlmModel {
     const { role, content, name } = message;
     return { role, content, name } as ChatCompletionMessageParam;
   }
-  async generate_response(
-    messages: ChatData[],
-    manifest: Manifest,
-    verbose: boolean,
-  ) {
-    return await this.engine.chat_completion(
-      messages.map(this.conv),
-      manifest,
-      verbose,
-    );
+  async generate_response(messages: ChatData[], manifest: Manifest, verbose: boolean) {
+    return await this.engine.chat_completion(messages.map(this.conv), manifest, verbose);
   }
 }
 
