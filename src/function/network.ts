@@ -21,9 +21,6 @@ export const http_request = async (
 
   const response = await (async () => {
     if (method === "POST") {
-      //headers["Content-Type"] = "application/json"
-      // response = requests.post(url, headers=headers, json=http_arguments)
-      console.log("post");
       return await fetch(__url, {
         method: "post",
         body: JSON.stringify({
