@@ -1,21 +1,34 @@
 import { replate_template } from "./utils";
 
-export const http_request = async (
-  __url: string,
-  method: string,
-  __headers: Record<string, string>,
-  appkey_value: string,
-  http_arguments: Record<string, string>,
-) => {
-  const appkey = { appkey: appkey_value };
+const get_url_params = (__url: string, __headers: Record<string, string>, __appkey_value: string, http_arguments: Record<string, string>) => {
+  const appkey = { appkey: __appkey_value };
   const headers = Object.keys(__headers).reduce((tmp: Record<string, string>, key: string) => {
     tmp[key] = replate_template({ ...(http_arguments || {}), ...appkey }, __headers[key]);
     return tmp;
   }, {});
 
+  const http_args = Object.keys(http_arguments).reduce((tmp: Record<string, string>, key: string) => {
+    tmp[key] = encodeURIComponent(http_arguments[key]);
+    return tmp;
+  }, {});
+  const url = replate_template({ ...http_args, ...appkey }, __url);
+  return {
+    url,
+    headers,
+  };
+};
+
+export const http_request = async (
+  __url: string,
+  method: string,
+  __headers: Record<string, string>,
+  __appkey_value: string,
+  http_arguments: Record<string, string>,
+) => {
+  const { url, headers } = get_url_params(__url, __headers, __appkey_value, http_arguments);
   const response = await (async () => {
     if (method === "POST") {
-      return await fetch(__url, {
+      return await fetch(url, {
         method: "post",
         body: JSON.stringify({
           ...http_arguments,
@@ -24,11 +37,6 @@ export const http_request = async (
         headers,
       });
     }
-    const http_args = Object.keys(http_arguments).reduce((tmp: Record<string, string>, key: string) => {
-      tmp[key] = encodeURIComponent(http_arguments[key]);
-      return tmp;
-    }, {});
-    const url = replate_template({ ...http_args, ...appkey }, __url);
     return await fetch(url, { headers });
   })();
 
@@ -39,7 +47,12 @@ export const http_request = async (
   return null;
 };
 
-export const graphQLRequest = async (__url: string, __headers: Record<string, string>, appkey_value: string, http_arguments: Record<string, string>) => {
-  console.log("GRAPH");
+export const graphQLRequest = async (__url: string, __headers: Record<string, string>, __appkey_value: string, http_arguments: Record<string, string>) => {
+  const { url, headers } = get_url_params(__url, __headers, __appkey_value, http_arguments);
+
+  const query = http_arguments["query"];
+  const params = http_arguments["variables"];
+
+  // console.log("GRAPH", query, params, url, headers);
   return "123";
 };
