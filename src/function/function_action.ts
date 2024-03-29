@@ -22,9 +22,11 @@ class FuctionAction {
         this.function_action_data["message"],
         call_arguments,
       );
-      console.log("data_url not implemented");
     } else if (callType === "message_template") {
-      console.log("message_template not implemented");
+      return this.replate_template(
+        call_arguments,
+        this.function_action_data["message"],
+      );
     } else if (callType === "emit") {
       console.log("emit");
     } else if (callType === "debug") {
@@ -44,7 +46,7 @@ class FuctionAction {
     message: string,
     call_arguments: Record<string, unknown>,
   ) {
-    console.log(base_dir, template_message, mime_type, message, call_arguments);
+    // console.log(base_dir, template_message, mime_type, message, call_arguments);
 
     const data = this.replate_template(call_arguments, template_message);
     const dataURL =
