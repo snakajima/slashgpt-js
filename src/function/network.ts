@@ -1,4 +1,5 @@
 import { replate_template } from "./utils";
+import { request, gql } from 'graphql-request'
 
 const get_url_params = (__url: string, __headers: Record<string, string>, __appkey_value: string, http_arguments: Record<string, string>) => {
   const appkey = { appkey: __appkey_value };
@@ -52,7 +53,10 @@ export const graphQLRequest = async (__url: string, __headers: Record<string, st
 
   const query = http_arguments["query"];
   const params = http_arguments["variables"];
+  const document = gql`${query}`
 
-  // console.log("GRAPH", query, params, url, headers);
-  return "123";
+  console.log("GRAPH", query, params, url, headers, document);
+  const res = await request(url, document)
+  console.log(res);
+  return res;
 };
