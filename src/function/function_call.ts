@@ -49,8 +49,6 @@ class FunctionCall {
         should_call_llm: false,
       };
     }
-    const call_arguments = this.get_call_arguments();
-
     const function_message = await (() => {
       if (this.function_action) {
         return this.function_action.call_api(this.function_name, this.call_arguments, this.manifest.base_dir);
