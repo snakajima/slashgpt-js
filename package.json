@@ -30,6 +30,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
     "openai": "^4.12.4",
     "yaml": "^2.3.3"
   },
