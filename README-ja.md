@@ -63,7 +63,7 @@ import YAML from "yaml";
 import { ChatSession } from "slashgpt";
 import { ChatConfig } from "slashgpt";
 
-import { print_bot } from "slashgpt/chat_utils";
+import { print_bot } from "slashgpt";
 
 const base_path = path.resolve(__dirname + "/");
 const file = base_path + "/paper.yml";
