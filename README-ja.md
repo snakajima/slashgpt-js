@@ -55,38 +55,17 @@ SlashGPT jsは、[SlashGPT](https://github.com/snakajima/SlashGPT)を TypeScript
 npm install slashgpt
 ```
 
+
+Put file paper.yml in the same folder as test ts file.
+
 ```typescript
-import fs from "fs";
-import path from "path";
-import YAML from "yaml";
-
-import { ChatSession } from "slashgpt";
-import { ChatConfig } from "slashgpt";
-
-import { print_bot } from "slashgpt";
-
-const base_path = path.resolve(__dirname + "/");
-const file = base_path + "/paper.yml";
+import { justRun } from "slashgpt/simple_client";
 
 const main = async () => {
-  const manifest_file = fs.readFileSync(file, "utf8");
-  const manifest = YAML.parse(manifest_file);
-  const config = new ChatConfig(base_path);
-
-  const session = new ChatSession(config, manifest);
-
-  const callback = (callback_type: string, data: unknown) => {
-    if (callback_type === "bot") {
-      print_bot(session.botname(), JSON.stringify(data));
-    }
-  };
-
-  session.append_user_question(manifest.sample);
-  await session.call_loop(callback);
-
-  console.log(session.history);
+  const file_path = path.resolve(__dirname) + "/paper.yml";
+  const session = await justRun(file_path);
+  console.log(session);
 };
-
 main();
 
 ```
