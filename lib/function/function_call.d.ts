@@ -9,7 +9,7 @@ declare class FunctionCall {
     constructor(data: Record<string, string>, manifest: Manifest);
     function_data(): {
         function_name: string;
-        call_arguments: Record<string, unknown>;
+        call_arguments: Record<string, string>;
     };
     name(): string;
     get_call_arguments(): any;
@@ -19,10 +19,10 @@ declare class FunctionCall {
         should_call_llm: boolean;
         call_arguments?: undefined;
     } | {
-        function_message: string | void | null;
+        function_message: string | null;
         function_name: string;
         should_call_llm: boolean;
-        call_arguments: Record<string, unknown>;
+        call_arguments: Record<string, string>;
     }>;
 }
 export default FunctionCall;
