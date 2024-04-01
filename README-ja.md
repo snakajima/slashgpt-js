@@ -55,7 +55,7 @@ SlashGPT jsは、[SlashGPT](https://github.com/snakajima/SlashGPT)を TypeScript
 npm install slashgpt
 ```
 
-```
+```typescript
 import fs from "fs";
 import path from "path";
 import YAML from "yaml";
