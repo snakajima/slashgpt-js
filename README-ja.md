@@ -63,7 +63,7 @@ import { justRun } from "slashgpt/lib/simple_client";
 const main = async () => {
   const file_path = path.resolve(__dirname) + "/paper.yml";
   const session = await justRun(file_path);
-  console.log(session);
+  console.log(session.history);
 };
 main();
 
