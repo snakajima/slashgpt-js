@@ -3,8 +3,9 @@
 // run script with open api key
 // OPENAI_API_KEY=sk-xxxxxx npx ts-node tests/run_manifest.ts business.json
 
-import { getBasePath, callback, getBasePath } from "./common";
+import { getFilePath, getBasePath } from "./common";
 import { readManifestData } from "../src/file_utils";
+import { callback } from "../src/simple_client";
 
 import { ChatSession } from "../src/";
 import { ChatConfig } from "../src/";
@@ -12,7 +13,7 @@ import { ChatConfig } from "../src/";
 console.log(process.argv[2]);
 
 const main = async () => {
-  const manifest = readManifestData(getBasePath(process.argv[2]));
+  const manifest = readManifestData(getFilePath(process.argv[2]));
   const config = new ChatConfig(getBasePath());
 
   const session = new ChatSession(config, manifest);
