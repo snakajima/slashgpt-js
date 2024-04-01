@@ -55,7 +55,7 @@ SlashGPT jsは、[SlashGPT](https://github.com/snakajima/SlashGPT)を TypeScript
 npm install slashgpt
 ```
 
-Put file paper.yml (manifest) and paper.json (resourcecs) in the same folder as test ts file.
+Put file [paper.yml](./tests/paper.yml) (manifest) and [paper.json](./tests/paper.json) (resourcecs) in the same folder as test ts file.
 
 ```typescript
 import { justRun } from "slashgpt/lib/simple_client";
