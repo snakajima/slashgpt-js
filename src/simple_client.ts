@@ -3,7 +3,6 @@ import { ChatSession } from "./";
 import { ChatConfig } from "./";
 import { readManifestData } from "./file_utils";
 
-
 export const callback = (callback_type: string, data: unknown) => {
   if (callback_type === "bot") {
     print_bot("bot", JSON.stringify(data));

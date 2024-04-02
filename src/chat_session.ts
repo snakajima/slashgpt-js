@@ -65,7 +65,12 @@ class ChatSession {
     if (res) {
       callback("bot", res);
     }
+
     if (function_call) {
+      // for js original feature
+      if (function_call.function_name) {
+        this.append_message("function_result", "", false, null, "", function_call.call_arguments);
+      }
       // not support emit yet.
       const { function_message, function_name, should_call_llm } = await function_call.process_function_call(this.history, true);
 
