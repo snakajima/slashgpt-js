@@ -4,8 +4,8 @@ declare class FunctionCall {
     private manifest;
     private function_call_data;
     private function_action;
-    private function_name;
-    private call_arguments;
+    function_name: string;
+    call_arguments: Record<string, string>;
     constructor(data: Record<string, string>, manifest: Manifest);
     function_data(): {
         function_name: string;
