@@ -12,6 +12,7 @@ const main = async () => {
         console.log("executing", result.node)
         setTimeout(() => {
           console.log("done")
+          flow.feed(result.node, {})
         }, 500);
     }
   });

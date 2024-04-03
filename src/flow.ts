@@ -32,4 +32,8 @@ export class Flow {
       }
     });
   }
+
+  public async feed(node: string, data: any) {
+    console.log("***feed", node, data)
+  }
 }
