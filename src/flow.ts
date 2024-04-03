@@ -1,6 +1,7 @@
 type Node = {
   title: string;
   inputs: undefined | any[];
+  params: any;
   outputs: string[]; // auto-generated
 }
 
@@ -50,7 +51,7 @@ export class Flow {
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs == undefined) {
-        callback({cmd: FlowCommand.Execute, node: key, params: node});
+        callback({cmd: FlowCommand.Execute, node: key, params: node.params});
       }
     });
   }

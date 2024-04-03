@@ -9,7 +9,7 @@ const main = async () => {
   const flow = new Flow(flow_data)
   flow.run(async (result) => {
     if (result.cmd == FlowCommand.Execute) {
-        console.log("executing", result.node)
+        console.log("executing", result.node, result.params)
         setTimeout(() => {
           console.log("done")
           flow.feed(result.node, {})

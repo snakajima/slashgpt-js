@@ -2,7 +2,8 @@ title: Sample Flow
 nodes:
   node1:
     title: First Node
-    param1: foo
+    params:
+      foo: bar
   node2:
     title: Second Node
     inputs:
