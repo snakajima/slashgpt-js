@@ -1,5 +1,6 @@
 type Node = {
   title: string;
+  inputs: undefined | any;
 }
 
 type FlowData = {
@@ -19,7 +20,12 @@ class Flow {
   }
 
   public async run(callback: FlowCallback) {
-    callback({message: "run"})
+    Object.keys(this.nodes).forEach(key => {
+      const node = this.nodes[key];
+      if (node.inputs == undefined) {
+        callback({cmd: "execute", node: key, params: node});
+      }
+    });
   }
 }
 

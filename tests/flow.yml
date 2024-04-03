@@ -5,6 +5,6 @@ nodes:
     param1: foo
   node2:
     title: Second Node
-    requires:
+    inputs:
       - node: node1
         param1: foo
