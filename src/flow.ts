@@ -9,12 +9,16 @@ type FlowData = {
 
 
 class Flow {
-  public data: FlowData;
+  public title: string;
   public nodes: Record<string, Node>
 
   constructor(data: FlowData) {
-    this.data = data;
+    this.title = data.title;
     this.nodes = data.nodes;
+  }
+
+  public async run() {
+    console.log("*** run")
   }
 }
 
