@@ -9,6 +9,8 @@ const main = async () => {
   const flow = new Flow(flow_data)
   console.log(flow.title);
   console.log(flow.nodes);
-  flow.run();
+  flow.run(async (result) => {
+    console.log(result)
+  });
 };
 main();

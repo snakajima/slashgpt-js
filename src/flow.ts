@@ -7,6 +7,7 @@ type FlowData = {
   nodes: Record<string, Node>
 };
 
+type FlowCallback = (result: any) => void;
 
 class Flow {
   public title: string;
@@ -17,8 +18,8 @@ class Flow {
     this.nodes = data.nodes;
   }
 
-  public async run() {
-    console.log("*** run")
+  public async run(callback: FlowCallback) {
+    callback({message: "run"})
   }
 }
 
