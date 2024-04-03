@@ -7,6 +7,6 @@ const main = async () => {
   const file_path = path.resolve(__dirname) + "/flow.yml";
   const flow_data = readManifestData(file_path);
   const flow = new Flow(flow_data)
-  console.log(flow.data);
+  console.log(flow.nodes);
 };
 main();
