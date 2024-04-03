@@ -1,5 +1,5 @@
 import path from "path";
-import Flow from "../src/flow";
+import { Flow, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
@@ -10,7 +10,9 @@ const main = async () => {
   console.log(flow.title);
   console.log(flow.nodes);
   flow.run(async (result) => {
-    console.log(result)
+    if (result.cmd == FlowCommand.Execute) {
+        console.log(result)
+    }
   });
 };
 main();

@@ -10,7 +10,12 @@ type FlowData = {
 
 type FlowCallback = (result: any) => void;
 
-class Flow {
+export enum FlowCommand {
+  Log,
+  Execute
+}
+
+export class Flow {
   public title: string;
   public nodes: Record<string, Node>
 
@@ -23,10 +28,8 @@ class Flow {
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs == undefined) {
-        callback({cmd: "execute", node: key, params: node});
+        callback({cmd: FlowCommand.Execute, node: key, params: node});
       }
     });
   }
 }
-
-export default Flow;
