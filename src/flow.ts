@@ -1,6 +1,7 @@
 type Node = {
   title: string;
-  inputs: undefined | any;
+  inputs: undefined | any[];
+  outputs: string[]; // auto-generated
 }
 
 type FlowData = {
@@ -22,6 +23,27 @@ export class Flow {
   constructor(data: FlowData) {
     this.title = data.title;
     this.nodes = data.nodes;
+    Object.keys(this.nodes).forEach(key => {
+      const node = this.nodes[key];
+      node.outputs = [];
+    });
+    Object.keys(this.nodes).forEach(key => {
+      const node = this.nodes[key];
+      if (node.inputs !== undefined) {
+        node.inputs.forEach(input => {
+          const node = this.nodes[input.node]
+          node.outputs.push(key);
+        });
+
+        // Debug code
+        Object.keys(this.nodes).forEach(key => {
+          const node = this.nodes[key]
+          console.log("*outputs", key, node.outputs);          
+        });
+      }
+    });
+
+    console.log(this.nodes);
   }
 
   public async run(callback: FlowCallback) {
