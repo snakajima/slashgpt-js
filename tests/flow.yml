@@ -1,1 +1,10 @@
 title: Sample Flow
+nodes:
+  node1:
+    title: First Node
+    param1: foo
+  node2:
+    title: Second Node
+    requires:
+      - node: node1
+        param1: foo
