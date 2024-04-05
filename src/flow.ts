@@ -25,6 +25,7 @@ type FlowCallback = (params: Record<string, any>) => void;
 
 class Node {
   public key: string;
+  public inputs: Array<string>;
   public pendings: Set<string>;
   public params: any;
   public waitlist: Set<string>;
@@ -34,7 +35,8 @@ class Node {
   public retryCount: number;
   constructor(key: string, data: NodeData) {
     this.key = key;
-    this.pendings = new Set(data.inputs ?? []);
+    this.inputs = data.inputs ?? [];
+    this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
@@ -72,6 +74,14 @@ class Node {
   public removePending(key: string, graph: Graph) {
     this.pendings.delete(key);
     this.executeIfReady(graph);
+  }
+
+  public payload(graph: Graph) {
+    const foo: Record<string, any> = {};
+    return this.inputs.reduce((payload, key) => {
+      payload[key] = { result: graph.nodes[key].result };       
+      return payload;
+    }, foo);    
   }
 
   public executeIfReady(graph: Graph) {
