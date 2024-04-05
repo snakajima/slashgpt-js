@@ -19,7 +19,7 @@ export enum FlowCommand {
   Execute
 }
 
-type FlowCallback = (cmd: FlowCommand, node: string, params: any) => void;
+type FlowCallback = (cmd: FlowCommand, node: string, params: any, payload: Record<string, any>) => void;
 
 class Node {
   public key: string;
@@ -60,7 +60,12 @@ class Node {
   public executeIfReady(callback: FlowCallback) {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
-      callback(FlowCommand.Execute, this.key, this.params);
+      const foo: Record<string, any> = {};
+      const payload = Object.keys(this.inputs).reduce((payload, key) => {
+        payload["foo"] = "bar";       
+        return payload;
+      }, foo);
+      callback(FlowCommand.Execute, this.key, this.params, payload);
     }
   }
 }
