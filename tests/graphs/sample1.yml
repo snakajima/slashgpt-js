@@ -8,12 +8,8 @@ nodes:
   node3:
     params:
       delay: 500
-    inputs:
-      node1:
-      node2:
-        param1: foo
+    inputs: [node1, node2]
   node4:
     params:
       delay: 100
-    inputs:
-      node3:
+    inputs: [node3]

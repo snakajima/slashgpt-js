@@ -6,7 +6,7 @@ export enum NodeState {
 }
 
 type NodeData = {
-  inputs: undefined | Record<string, any>;
+  inputs: undefined | Array<string>;
   params: any;
 }
 
@@ -32,7 +32,7 @@ class Node {
   public result: Record<string, any>;
   constructor(key: string, data: NodeData) {
     this.key = key;
-    this.inputs = Object.keys(data.inputs ?? {});
+    this.inputs = data.inputs ?? [];
     this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.waitlist = new Set<string>();
