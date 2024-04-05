@@ -41,7 +41,20 @@ class Node {
 
   public asString() {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`    
-  }  
+  }
+
+  public complete(result: Record<string, any>, nodes: Record<string, Node>, callback: FlowCallback) {
+    this.state = NodeState.Completed;
+    this.result = result;
+    this.waitlist.forEach(key2 => {
+      const node = nodes[key2];
+      node.pendings.delete(this.key);
+      if (node.pendings.size == 0) {
+        node.state = NodeState.Executing;
+        callback(FlowCommand.Execute, key2, node.params);
+      }
+    });
+  }
 }
 
 export class Graph {
@@ -83,18 +96,8 @@ export class Graph {
   }
 
   public async feed(key: string, result: Record<string, any>) {
-    console.log("***feed", key, result)
+    console.log("***feed", key, result);
     const node = this.nodes[key];
-    node.state = NodeState.Completed;
-    node.result = result;
-    node.waitlist.forEach(key2 => {
-      const node2 = this.nodes[key2];
-      node2.pendings.delete(key);
-      if (node2.pendings.size == 0) {
-        node2.state = NodeState.Executing;
-        this.callback(FlowCommand.Execute, key2, node2.params);
-      }
-    });
-
+    node.complete(result, this.nodes, this.callback);
   }
 }
