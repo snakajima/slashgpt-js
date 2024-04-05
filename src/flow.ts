@@ -31,6 +31,7 @@ class Node {
   public params: any;
   public outputs: string[]; // auto-generated
   public state: NodeState;
+  public result: Record<string, any>;
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.title = data.title;
@@ -39,6 +40,7 @@ class Node {
     this.params = data.params;
     this.outputs = [];
     this.state = NodeState.Waiting;
+    this.result = {};
   }
 
   public asString() {
@@ -84,7 +86,8 @@ export class Graph {
     });
   }
 
-  public async feed(node: string, data: any) {
-    console.log("***feed", node, data)
+  public async feed(key: string, result: Record<string, any>) {
+    console.log("***feed", key, result)
+    this.nodes[key].result = result;
   }
 }
