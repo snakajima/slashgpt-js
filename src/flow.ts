@@ -101,7 +101,7 @@ export class Graph {
       if (node2.pendings.size == 0) {
         node2.state = NodeState.Executing;
         console.log("**log6", node2.key);
-        // callback({cmd: FlowCommand.Execute, node: key2, params: node2.params});
+        this.callback({cmd: FlowCommand.Execute, node: key2, params: node2.params});
       }
     });
 
