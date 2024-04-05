@@ -46,12 +46,12 @@ class Node {
   public complete(result: Record<string, any>, nodes: Record<string, Node>, callback: FlowCallback) {
     this.state = NodeState.Completed;
     this.result = result;
-    this.waitlist.forEach(key2 => {
-      const node = nodes[key2];
+    this.waitlist.forEach(key => {
+      const node = nodes[key];
       node.pendings.delete(this.key);
       if (node.pendings.size == 0) {
         node.state = NodeState.Executing;
-        callback(FlowCommand.Execute, key2, node.params);
+        callback(FlowCommand.Execute, key, node.params);
       }
     });
   }
