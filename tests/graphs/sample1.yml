@@ -12,3 +12,8 @@ nodes:
       node1:
       node2:
         param1: foo
+  node4:
+    params:
+      delay: 100
+    inputs:
+      node3:
