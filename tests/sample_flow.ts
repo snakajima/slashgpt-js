@@ -3,7 +3,9 @@ import { Graph, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
-const test = async (graph_data: any) => {
+const test = async (file: string) => {
+  const file_path = path.resolve(__dirname) + file;
+  const graph_data = readManifestData(file_path);
   return new Promise((resolve, reject) => {
     const graph = new Graph(graph_data, async (params) => {
       if (params.cmd == FlowCommand.Execute) {
@@ -29,9 +31,9 @@ const test = async (graph_data: any) => {
 }
 
 const main = async () => {
-  const file_path = path.resolve(__dirname) + "/graphs/sample1.yml";
-  const graph_data = readManifestData(file_path);
-  await test(graph_data);
-  console.log("COMPLETE");
+  await test("/graphs/sample1.yml");
+  console.log("COMPLETE 1");
+  await test("/graphs/sample2.yml");
+  console.log("COMPLETE 2");
 };
 main();
