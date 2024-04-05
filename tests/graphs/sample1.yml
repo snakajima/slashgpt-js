@@ -6,6 +6,8 @@ nodes:
       foo: bar
   node2:
     title: Second Node
+  node3:
     inputs:
       node1:
+      node2:
         param1: foo

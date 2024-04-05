@@ -10,7 +10,6 @@ const main = async () => {
     if (result.cmd == FlowCommand.Execute) {
         console.log("executing", result.node, result.params)
         setTimeout(() => {
-          console.log("done")
           graph.feed(result.node, {})
         }, 500);
     }
