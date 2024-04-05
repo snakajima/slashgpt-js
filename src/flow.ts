@@ -1,8 +1,16 @@
+export enum NodeState {
+  Waiting,
+  Executing,
+  Failed,
+  Completed
+}
+
 type Node = {
   title: string;
   inputs: undefined | any[];
   params: any;
   outputs: string[]; // auto-generated
+  state: NodeState;
 }
 
 type FlowData = {
@@ -27,6 +35,7 @@ export class Flow {
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       node.outputs = [];
+      node.state = NodeState.Waiting;
     });
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
@@ -51,6 +60,7 @@ export class Flow {
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs == undefined) {
+        node.state = NodeState.Executing;
         callback({cmd: FlowCommand.Execute, node: key, params: node.params});
       }
     });
