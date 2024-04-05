@@ -43,12 +43,12 @@ class Node {
     return `${this.key}: ${this.state} ${[...this.waitlist]}`    
   }
 
-  public complete(result: Record<string, any>, nodes: Record<string, Node>, callback: FlowCallback) {
+  public complete(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
     this.state = NodeState.Completed;
     this.result = result;
     this.waitlist.forEach(key => {
       const node = nodes[key];
-      node.removePending(this.key, callback);
+      node.removePending(this.key, graph.callback);
     });
   }
 
@@ -106,6 +106,6 @@ export class Graph {
 
   public async feed(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
-    node.complete(result, this.nodes, this.callback);
+    node.complete(result, this.nodes, this);
   }
 }
