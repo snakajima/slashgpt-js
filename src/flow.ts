@@ -36,9 +36,7 @@ class Node {
     this.key = key;
     this.title = data.title;
     this.inputs = data.inputs ?? {};
-    console.log("*log0", Object.keys(this.inputs));
     this.pendings = new Set(Object.keys(this.inputs));
-    console.log("*log2", this.pendings.size);
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
@@ -95,12 +93,10 @@ export class Graph {
     const node = this.nodes[key];
     node.result = result;
     node.waitlist.forEach(key2 => {
-      console.log("*log5", key2);
       const node2 = this.nodes[key2];
       node2.pendings.delete(key);
       if (node2.pendings.size == 0) {
         node2.state = NodeState.Executing;
-        console.log("**log6", node2.key);
         this.callback({cmd: FlowCommand.Execute, node: key2, params: node2.params});
       }
     });
