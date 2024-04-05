@@ -50,11 +50,13 @@ class Node {
       const node = nodes[key];
       node.removePending(this.key, graph);
     });
+    graph.remove(this);
   }
 
   public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
     this.state = NodeState.Failed;
     this.result = result;
+    graph.remove(this);
   }
 
   public removePending(key: string, graph: Graph) {
@@ -65,6 +67,7 @@ class Node {
   public executeIfReady(graph: Graph) {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
+      graph.add(this);
       const foo: Record<string, any> = {};
       const payload = Object.keys(this.inputs).reduce((payload, key) => {
         payload[key] = { result: graph.nodes[key].result, options: this.inputs[key] ?? {} };       
@@ -78,9 +81,11 @@ class Node {
 export class Graph {
   public nodes: Record<string, Node>
   public callback: FlowCallback;
+  private runningNodes: Set<string>;
 
   constructor(data: FlowData, callback: FlowCallback) {
     this.callback = callback;
+    this.runningNodes = new Set<string>();
     const foo: Record<string, Node> = {}; // HACK: Work around
     this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
       nodes[key] = new Node(key, data.nodes[key]);
@@ -117,5 +122,16 @@ export class Graph {
   public async reportError(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
     node.reportError(result, this.nodes, this);
+  }
+
+  public add(node: Node) {
+    this.runningNodes.add(node.key);
+  }
+
+  public remove(node: Node) {
+    this.runningNodes.delete(node.key);
+    if (this.runningNodes.size == 0) {
+      console.log("*** no running node")
+    }
   }
 }
