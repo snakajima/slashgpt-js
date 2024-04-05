@@ -54,10 +54,10 @@ class Node {
 
   public removePending(key: string, graph: Graph) {
     this.pendings.delete(key);
-    this.executeIfReady(graph.callback);
+    this.executeIfReady(graph);
   }
 
-  public executeIfReady(callback: FlowCallback) {
+  public executeIfReady(graph: Graph) {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       const foo: Record<string, any> = {};
@@ -65,7 +65,7 @@ class Node {
         payload["foo"] = "bar";       
         return payload;
       }, foo);
-      callback(FlowCommand.Execute, this.key, this.params, payload);
+      graph.callback(FlowCommand.Execute, this.key, this.params, payload);
     }
   }
 }
@@ -100,7 +100,7 @@ export class Graph {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
-      node.executeIfReady(this.callback);
+      node.executeIfReady(this);
     });
   }
 
