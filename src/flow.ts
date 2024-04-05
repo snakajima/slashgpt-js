@@ -36,6 +36,10 @@ class Node {
     this.outputs = [];
     this.state = NodeState.Waiting;
   }
+
+  public asString() {
+    return `${this.state} ${this.outputs}`    
+  }  
 }
 
 export class Flow {
@@ -49,11 +53,7 @@ export class Flow {
       nodes[key] = new Node(data.nodes[key]);
       return nodes;
     }, foo);
-    Object.keys(this.nodes).forEach(key => {
-      const node = this.nodes[key];
-      node.outputs = [];
-      node.state = NodeState.Waiting;
-    });
+
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs !== undefined) {
@@ -61,16 +61,13 @@ export class Flow {
           const node = this.nodes[input.node]
           node.outputs.push(key);
         });
-
-        // Debug code
-        Object.keys(this.nodes).forEach(key => {
-          const node = this.nodes[key]
-          console.log("*outputs", key, node.outputs);          
-        });
       }
     });
+    console.log(this.asString());
+  }
 
-    console.log(this.nodes);
+  public asString() {
+    return Object.keys(this.nodes).map((key) => { return this.nodes[key].asString() }).join('\n');
   }
 
   public async run(callback: FlowCallback) {
