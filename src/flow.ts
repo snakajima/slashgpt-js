@@ -62,7 +62,7 @@ class Node {
       this.state = NodeState.Executing;
       const foo: Record<string, any> = {};
       const payload = Object.keys(this.inputs).reduce((payload, key) => {
-        payload["foo"] = "bar";       
+        payload[key] = { result: graph.nodes[key].result, options: this.inputs[key] ?? {} };       
         return payload;
       }, foo);
       graph.callback(FlowCommand.Execute, this.key, this.params, payload);
