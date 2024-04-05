@@ -48,13 +48,13 @@ class Node {
     this.result = result;
     this.waitlist.forEach(key => {
       const node = nodes[key];
-      node.removePending(this.key, graph.callback);
+      node.removePending(this.key, graph);
     });
   }
 
-  public removePending(key: string, callback: FlowCallback) {
+  public removePending(key: string, graph: Graph) {
     this.pendings.delete(key);
-    this.executeIfReady(callback);
+    this.executeIfReady(graph.callback);
   }
 
   public executeIfReady(callback: FlowCallback) {
