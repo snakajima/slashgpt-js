@@ -1,12 +1,13 @@
-title: Sample Flow
 nodes:
   node1:
-    title: First Node
     params:
-      foo: bar
+      delay: 500
   node2:
-    title: Second Node
+    params:
+      delay: 200
   node3:
+    params:
+      delay: 300
     inputs:
       node1:
       node2:
