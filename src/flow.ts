@@ -52,6 +52,11 @@ class Node {
     });
   }
 
+  public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
+    this.state = NodeState.Failed;
+    this.result = result;
+  }
+
   public removePending(key: string, graph: Graph) {
     this.pendings.delete(key);
     this.executeIfReady(graph);
@@ -107,5 +112,10 @@ export class Graph {
   public async feed(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
     node.complete(result, this.nodes, this);
+  }
+
+  public async reportError(key: string, result: Record<string, any>) {
+    const node = this.nodes[key];
+    node.reportError(result, this.nodes, this);
   }
 }

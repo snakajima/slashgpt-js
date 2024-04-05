@@ -11,9 +11,15 @@ const main = async () => {
         const node = params.node;
         console.log("executing", node, params.params, params.payload)
         setTimeout(() => {
-          const result = { [node]:"success" };
-          console.log("completing", node, result)
-          graph.feed(node, result)
+          if (params.params.fail) {
+            const result = { [node]:"failed" };
+            console.log("failed", node, result)
+            graph.reportError(node, result);
+          } else {
+            const result = { [node]:"success" };
+            console.log("completing", node, result)
+            graph.feed(node, result)
+          }
         }, params.params.delay);
     }
   });

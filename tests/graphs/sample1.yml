@@ -8,6 +8,7 @@ nodes:
   node3:
     params:
       delay: 500
+      fail: true
     inputs:
       node1:
       node2:
