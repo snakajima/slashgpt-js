@@ -7,5 +7,5 @@ nodes:
   node2:
     title: Second Node
     inputs:
-      - node: node1
+      node1:
         param1: foo

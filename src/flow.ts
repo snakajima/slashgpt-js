@@ -7,7 +7,7 @@ export enum NodeState {
 
 type NodeData = {
   title: string;
-  inputs: undefined | any[];
+  inputs: Record<string, any>;
   params: any;
 }
 
@@ -33,8 +33,8 @@ class Node {
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.title = data.title;
-    const inputs = data.inputs ?? [];
-    this.pendings = new Set(inputs.map((input) => { return input.node }));
+    const inputs = data.inputs ?? {};
+    this.pendings = new Set(Object.keys(inputs));
     console.log("*log", this.pendings);
     this.params = data.params;
     this.outputs = [];
