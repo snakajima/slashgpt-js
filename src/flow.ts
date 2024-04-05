@@ -78,7 +78,7 @@ class Node {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       graph.add(this);
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params });
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: 0 });
     }
   }
 }

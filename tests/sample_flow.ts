@@ -12,9 +12,9 @@ const test = async (file: string) => {
           const node = params.node;
           console.log("executing", node, params.params)
           setTimeout(() => {
-            if (params.params.fail) {
+            if (params.params.fail && params.retry < 2) {
               const result = { [node]:"failed" };
-              console.log("failed", node, result)
+              console.log("failed", node, result, params.retry)
               graph.reportError(node, result);
             } else {
               const result = { [node]:"success" };
