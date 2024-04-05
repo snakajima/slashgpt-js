@@ -14,12 +14,12 @@ type FlowData = {
   nodes: Record<string, NodeData>
 };
 
-type FlowCallback = (result: any) => void;
-
 export enum FlowCommand {
   Log,
   Execute
 }
+
+type FlowCallback = (cmd: FlowCommand, node: string, params: any) => void;
 
 class Node {
   public key: string;
@@ -77,7 +77,7 @@ export class Graph {
       const node = this.nodes[key];
       if (node.pendings.size == 0) {
         node.state = NodeState.Executing;
-        this.callback({cmd: FlowCommand.Execute, node: key, params: node.params});
+        this.callback(FlowCommand.Execute, key, node.params);
       }
     });
   }
@@ -91,7 +91,7 @@ export class Graph {
       node2.pendings.delete(key);
       if (node2.pendings.size == 0) {
         node2.state = NodeState.Executing;
-        this.callback({cmd: FlowCommand.Execute, node: key2, params: node2.params});
+        this.callback(FlowCommand.Execute, key2, node2.params);
       }
     });
 

@@ -1,13 +1,13 @@
 nodes:
   node1:
     params:
-      delay: 500
+      delay: 300
   node2:
     params:
-      delay: 200
+      delay: 100
   node3:
     params:
-      delay: 300
+      delay: 2000
     inputs:
       node1:
       node2:
