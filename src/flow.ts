@@ -24,12 +24,14 @@ export enum FlowCommand {
 }
 
 class Node {
+  public key: string;
   public title: string;
   public inputs: undefined | any[];
   public params: any;
   public outputs: string[]; // auto-generated
   public state: NodeState;
-  constructor(data: NodeData) {
+  constructor(key: string, data: NodeData) {
+    this.key = key;
     this.title = data.title;
     this.inputs = data.inputs;
     this.params = data.params;
@@ -38,7 +40,7 @@ class Node {
   }
 
   public asString() {
-    return `${this.state} ${this.outputs}`    
+    return `${this.key}: ${this.state} ${this.outputs}`    
   }  
 }
 
@@ -50,7 +52,7 @@ export class Flow {
     this.title = data.title;
     const foo: Record<string, Node> = {}; // HACK: Work around
     this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
-      nodes[key] = new Node(data.nodes[key]);
+      nodes[key] = new Node(key, data.nodes[key]);
       return nodes;
     }, foo);
 
