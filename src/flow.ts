@@ -19,7 +19,7 @@ export enum FlowCommand {
   Execute
 }
 
-type FlowCallback = (cmd: FlowCommand, node: string, params: any, payload: Record<string, any>) => void;
+type FlowCallback = (params: Record<string, any>) => void;
 
 class Node {
   public key: string;
@@ -65,7 +65,7 @@ class Node {
         payload[key] = { result: graph.nodes[key].result, options: this.inputs[key] ?? {} };       
         return payload;
       }, foo);
-      graph.callback(FlowCommand.Execute, this.key, this.params, payload);
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, payload });
     }
   }
 }
