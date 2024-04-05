@@ -1,18 +1,18 @@
 import path from "path";
-import { Flow, FlowCommand } from "../src/flow";
+import { Graph, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
 const main = async () => {
   const file_path = path.resolve(__dirname) + "/flow.yml";
-  const flow_data = readManifestData(file_path);
-  const flow = new Flow(flow_data)
-  flow.run(async (result) => {
+  const graph_data = readManifestData(file_path);
+  const graph = new Graph(graph_data)
+  graph.run(async (result) => {
     if (result.cmd == FlowCommand.Execute) {
         console.log("executing", result.node, result.params)
         setTimeout(() => {
           console.log("done")
-          flow.feed(result.node, {})
+          graph.feed(result.node, {})
         }, 500);
     }
   });

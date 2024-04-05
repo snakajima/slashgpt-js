@@ -44,7 +44,7 @@ class Node {
   }  
 }
 
-export class Flow {
+export class Graph {
   public title: string;
   public nodes: Record<string, Node>
 
