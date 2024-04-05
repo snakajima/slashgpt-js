@@ -69,12 +69,7 @@ class Node {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       graph.add(this);
-      const foo: Record<string, any> = {};
-      const payload = Object.keys(this.inputs).reduce((payload, key) => {
-        payload[key] = { result: graph.nodes[key].result, options: this.inputs[key] ?? {} };       
-        return payload;
-      }, foo);
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, payload });
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params });
     }
   }
 }

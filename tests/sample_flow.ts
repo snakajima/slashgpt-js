@@ -9,7 +9,7 @@ const test = async (graph_data: any, callback: OnComplete) => {
   const graph = new Graph(graph_data, async (params) => {
     if (params.cmd == FlowCommand.Execute) {
         const node = params.node;
-        console.log("executing", node, params.params, params.payload)
+        console.log("executing", node, params.params)
         setTimeout(() => {
           if (params.params.fail) {
             const result = { [node]:"failed" };
