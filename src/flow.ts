@@ -77,7 +77,7 @@ export class Graph {
       return nodes;
     }, foo);
 
-    // Generate waitlist from inputs
+    // Generate the waitlist for each node
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       node.pendings.forEach(pending => {
@@ -85,7 +85,6 @@ export class Graph {
         node2.waitlist.add(key);
       });
     });
-    console.log(this.asString());
   }
 
   public asString() {
@@ -93,7 +92,7 @@ export class Graph {
   }
 
   public async run() {
-    // Find nodes with no pending and run them immediately.
+    // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       node.executeIfReady(this.callback);
@@ -101,7 +100,6 @@ export class Graph {
   }
 
   public async feed(key: string, result: Record<string, any>) {
-    console.log("***feed", key, result);
     const node = this.nodes[key];
     node.complete(result, this.nodes, this.callback);
   }
