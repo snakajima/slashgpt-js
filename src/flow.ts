@@ -8,10 +8,11 @@ export enum NodeState {
 type NodeData = {
   inputs: undefined | Array<string>;
   params: any; // Application specific parameters
+  retry: undefined | number;
 }
 
 type FlowData = {
-  nodes: Record<string, NodeData>
+  nodes: Record<string, NodeData>;
 };
 
 export enum FlowCommand {
@@ -29,6 +30,8 @@ class Node {
   public waitlist: Set<string>;
   public state: NodeState;
   public result: Record<string, any>;
+  public retryLimit: number;
+  public retryCount: number;
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.pendings = new Set(data.inputs ?? []);
@@ -36,6 +39,8 @@ class Node {
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
     this.result = {};
+    this.retryLimit = data.retry ?? 0;
+    this.retryCount = 0;
   }
 
   public asString() {
@@ -55,7 +60,13 @@ class Node {
   public reportError(result: Record<string, any>, nodes: Record<string, Node>, graph: Graph) {
     this.state = NodeState.Failed;
     this.result = result;
-    graph.remove(this);
+    if (this.retryCount < this.retryLimit) {
+      this.retryCount++;
+      this.state = NodeState.Executing;
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: this.retryCount });
+    } else {
+      graph.remove(this);
+    }
   }
 
   public removePending(key: string, graph: Graph) {

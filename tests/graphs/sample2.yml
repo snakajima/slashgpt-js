@@ -10,6 +10,7 @@ nodes:
       delay: 500
       fail: true
     inputs: [node1, node2]
+    retry: 2
   node4:
     params:
       delay: 100
