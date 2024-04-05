@@ -3,9 +3,7 @@ import { Graph, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
-const main = async () => {
-  const file_path = path.resolve(__dirname) + "/graphs/sample1.yml";
-  const graph_data = readManifestData(file_path);
+const test = async (graph_data: any) => {
   const graph = new Graph(graph_data, async (params) => {
     if (params.cmd == FlowCommand.Execute) {
         const node = params.node;
@@ -26,5 +24,11 @@ const main = async () => {
     }
   });
   graph.run();
+}
+
+const main = async () => {
+  const file_path = path.resolve(__dirname) + "/graphs/sample1.yml";
+  const graph_data = readManifestData(file_path);
+  test(graph_data);
 };
 main();
