@@ -53,9 +53,11 @@ class Node {
 export class Graph {
   public title: string;
   public nodes: Record<string, Node>
+  public callback: FlowCallback;
 
-  constructor(data: FlowData) {
+  constructor(data: FlowData, callback: FlowCallback) {
     this.title = data.title;
+    this.callback = callback;
     const foo: Record<string, Node> = {}; // HACK: Work around
     this.nodes = Object.keys(data.nodes).reduce((nodes, key) => {
       nodes[key] = new Node(key, data.nodes[key]);
@@ -77,13 +79,13 @@ export class Graph {
     return Object.keys(this.nodes).map((key) => { return this.nodes[key].asString() }).join('\n');
   }
 
-  public async run(callback: FlowCallback) {
+  public async run() {
     // Find nodes with no pending and run them immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.pendings.size == 0) {
         node.state = NodeState.Executing;
-        callback({cmd: FlowCommand.Execute, node: key, params: node.params});
+        this.callback({cmd: FlowCommand.Execute, node: key, params: node.params});
       }
     });
   }
