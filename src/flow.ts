@@ -100,7 +100,7 @@ export class Graph {
     return Object.keys(this.nodes).map((key) => { return this.nodes[key].asString() }).join('\n');
   }
 
-  public async run() {
+  public run() {
     // Nodes without pending data should run immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
@@ -108,12 +108,12 @@ export class Graph {
     });
   }
 
-  public async feed(key: string, result: Record<string, any>) {
+  public feed(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
     node.complete(result, this.nodes, this);
   }
 
-  public async reportError(key: string, result: Record<string, any>) {
+  public reportError(key: string, result: Record<string, any>) {
     const node = this.nodes[key];
     node.reportError(result, this.nodes, this);
   }
