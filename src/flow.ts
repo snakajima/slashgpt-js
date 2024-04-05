@@ -85,6 +85,7 @@ export class Graph {
   public async feed(key: string, result: Record<string, any>) {
     console.log("***feed", key, result)
     const node = this.nodes[key];
+    node.state = NodeState.Completed;
     node.result = result;
     node.waitlist.forEach(key2 => {
       const node2 = this.nodes[key2];
