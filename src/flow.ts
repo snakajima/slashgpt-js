@@ -26,14 +26,15 @@ export enum FlowCommand {
 class Node {
   public key: string;
   public title: string;
-  public inputs: undefined | any[];
+  public inputs: any[];
   public params: any;
   public outputs: string[]; // auto-generated
   public state: NodeState;
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.title = data.title;
-    this.inputs = data.inputs;
+    this.inputs = data.inputs ?? [];
+    console.log("*log", this.inputs);
     this.params = data.params;
     this.outputs = [];
     this.state = NodeState.Waiting;
@@ -59,12 +60,10 @@ export class Graph {
     // Generate outputs from inputs
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
-      if (node.inputs !== undefined) {
-        node.inputs.forEach(input => {
-          const node = this.nodes[input.node]
-          node.outputs.push(key);
-        });
-      }
+      node.inputs.forEach(input => {
+        const node = this.nodes[input.node]
+        node.outputs.push(key);
+      });
     });
     console.log(this.asString());
   }
@@ -77,7 +76,7 @@ export class Graph {
     // Find nodes with no inputs and run them immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
-      if (node.inputs == undefined) {
+      if (node.inputs.length == 0) {
         node.state = NodeState.Executing;
         callback({cmd: FlowCommand.Execute, node: key, params: node.params});
       }
