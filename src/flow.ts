@@ -56,6 +56,7 @@ export class Flow {
       return nodes;
     }, foo);
 
+    // Generate outputs from inputs
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs !== undefined) {
@@ -73,6 +74,7 @@ export class Flow {
   }
 
   public async run(callback: FlowCallback) {
+    // Find nodes with no inputs and run them immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.inputs == undefined) {
