@@ -3,7 +3,9 @@ import { Graph, FlowCommand } from "../src/flow";
 
 import { readManifestData } from "../src/file_utils";
 
-const test = async (graph_data: any) => {
+type OnComplete = (graph: Graph) => void;
+
+const test = async (graph_data: any, callback: OnComplete) => {
   const graph = new Graph(graph_data, async (params) => {
     if (params.cmd == FlowCommand.Execute) {
         const node = params.node;
@@ -20,7 +22,7 @@ const test = async (graph_data: any) => {
           }
         }, params.params.delay);
     } else if (params.cmd == FlowCommand.OnComplete) {
-      console.log("=== ON COMPLETE")
+      callback(graph);
     }
   });
   graph.run();
@@ -29,6 +31,8 @@ const test = async (graph_data: any) => {
 const main = async () => {
   const file_path = path.resolve(__dirname) + "/graphs/sample1.yml";
   const graph_data = readManifestData(file_path);
-  test(graph_data);
+  test(graph_data, (graph) => {
+    console.log("=== ON COMPLETE")
+  });
 };
 main();
