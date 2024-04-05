@@ -48,12 +48,16 @@ class Node {
     this.result = result;
     this.waitlist.forEach(key => {
       const node = nodes[key];
-      node.pendings.delete(this.key);
-      if (node.pendings.size == 0) {
-        node.state = NodeState.Executing;
-        callback(FlowCommand.Execute, key, node.params);
-      }
+      node.removePending(this.key, callback);
     });
+  }
+
+  public removePending(key: string, callback: FlowCallback) {
+    this.pendings.delete(key);
+    if (this.pendings.size == 0) {
+      this.state = NodeState.Executing;
+      callback(FlowCommand.Execute, this.key, this.params);
+    }
   }
 }
 
