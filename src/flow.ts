@@ -24,7 +24,7 @@ type FlowCallback = (params: Record<string, any>) => void;
 
 class Node {
   public key: string;
-  public inputs: Record<string, any>
+  public inputs: Array<string>
   public pendings: Set<string>;
   public params: any;
   public waitlist: Set<string>;
@@ -32,8 +32,8 @@ class Node {
   public result: Record<string, any>;
   constructor(key: string, data: NodeData) {
     this.key = key;
-    this.inputs = data.inputs ?? {};
-    this.pendings = new Set(Object.keys(this.inputs));
+    this.inputs = Object.keys(data.inputs ?? {});
+    this.pendings = new Set(this.inputs);
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
