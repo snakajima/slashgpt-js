@@ -29,22 +29,24 @@ class Node {
   public inputs: Record<string, any>
   public pendings: Set<string>;
   public params: any;
-  public outputs: string[]; // auto-generated
+  public waitlist: Set<string>;
   public state: NodeState;
   public result: Record<string, any>;
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.title = data.title;
     this.inputs = data.inputs ?? {};
+    console.log("*log0", Object.keys(this.inputs));
     this.pendings = new Set(Object.keys(this.inputs));
+    console.log("*log2", this.pendings.size);
     this.params = data.params;
-    this.outputs = [];
+    this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
     this.result = {};
   }
 
   public asString() {
-    return `${this.key}: ${this.state} ${this.outputs}`    
+    return `${this.key}: ${this.state} ${[...this.waitlist]}`    
   }  
 }
 
@@ -60,13 +62,13 @@ export class Graph {
       return nodes;
     }, foo);
 
-    // Generate outputs from inputs
+    // Generate waitlist from inputs
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
-      for (const pending in node.pendings) {
-        const node = this.nodes[pending]
-        node.outputs.push(key);
-      }
+      node.pendings.forEach(pending => {
+        const node2 = this.nodes[pending]
+        node2.waitlist.add(key);
+      });
     });
     console.log(this.asString());
   }
