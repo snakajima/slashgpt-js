@@ -21,6 +21,8 @@ const main = async () => {
             graph.feed(node, result)
           }
         }, params.params.delay);
+    } else if (params.cmd == FlowCommand.OnComplete) {
+      console.log("=== ON COMPLETE")
     }
   });
   graph.run();

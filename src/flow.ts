@@ -16,7 +16,8 @@ type FlowData = {
 
 export enum FlowCommand {
   Log,
-  Execute
+  Execute,
+  OnComplete
 }
 
 type FlowCallback = (params: Record<string, any>) => void;
@@ -131,7 +132,7 @@ export class Graph {
   public remove(node: Node) {
     this.runningNodes.delete(node.key);
     if (this.runningNodes.size == 0) {
-      console.log("*** no running node")
+      this.callback({cmd: FlowCommand.OnComplete});
     }
   }
 }
