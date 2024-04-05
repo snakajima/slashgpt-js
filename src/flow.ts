@@ -7,7 +7,7 @@ export enum NodeState {
 
 type NodeData = {
   inputs: undefined | Array<string>;
-  params: any;
+  params: any; // Application specific parameters
 }
 
 type FlowData = {
@@ -24,7 +24,6 @@ type FlowCallback = (params: Record<string, any>) => void;
 
 class Node {
   public key: string;
-  public inputs: Array<string>
   public pendings: Set<string>;
   public params: any;
   public waitlist: Set<string>;
@@ -32,8 +31,7 @@ class Node {
   public result: Record<string, any>;
   constructor(key: string, data: NodeData) {
     this.key = key;
-    this.inputs = data.inputs ?? [];
-    this.pendings = new Set(this.inputs);
+    this.pendings = new Set(data.inputs ?? []);
     this.params = data.params;
     this.waitlist = new Set<string>();
     this.state = NodeState.Waiting;
