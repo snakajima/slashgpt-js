@@ -65,7 +65,7 @@ class Node {
     if (this.retryCount < this.retryLimit) {
       this.retryCount++;
       this.state = NodeState.Executing;
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: this.retryCount });
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: this.retryCount, payload: this.payload(graph) });
     } else {
       graph.remove(this);
     }
@@ -79,7 +79,7 @@ class Node {
   public payload(graph: Graph) {
     const foo: Record<string, any> = {};
     return this.inputs.reduce((payload, key) => {
-      payload[key] = { result: graph.nodes[key].result };       
+      payload[key] = graph.nodes[key].result;       
       return payload;
     }, foo);    
   }
@@ -88,7 +88,7 @@ class Node {
     if (this.pendings.size == 0) {
       this.state = NodeState.Executing;
       graph.add(this);
-      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: 0 });
+      graph.callback({cmd: FlowCommand.Execute, node: this.key, params: this.params, retry: 0, payload: this.payload(graph) });
     }
   }
 }

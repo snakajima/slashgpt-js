@@ -10,14 +10,14 @@ const test = async (file: string) => {
     const graph = new Graph(graph_data, async (params) => {
       if (params.cmd == FlowCommand.Execute) {
           const node = params.node;
-          console.log("executing", node, params.params)
+          console.log("executing", node, params.params, params.payload)
           setTimeout(() => {
             if (params.params.fail && params.retry < 2) {
               const result = { [node]:"failed" };
               console.log("failed", node, result, params.retry)
               graph.reportError(node, result);
             } else {
-              const result = { [node]:"success" };
+              const result = { [node]:"output" };
               console.log("completing", node, result)
               graph.feed(node, result)
             }
