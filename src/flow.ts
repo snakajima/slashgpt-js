@@ -7,7 +7,7 @@ export enum NodeState {
 
 type NodeData = {
   title: string;
-  inputs: Record<string, any>;
+  inputs: undefined | Record<string, any>;
   params: any;
 }
 
@@ -26,6 +26,7 @@ export enum FlowCommand {
 class Node {
   public key: string;
   public title: string;
+  public inputs: Record<string, any>
   public pendings: Set<string>;
   public params: any;
   public outputs: string[]; // auto-generated
@@ -33,9 +34,8 @@ class Node {
   constructor(key: string, data: NodeData) {
     this.key = key;
     this.title = data.title;
-    const inputs = data.inputs ?? {};
-    this.pendings = new Set(Object.keys(inputs));
-    console.log("*log", this.pendings);
+    this.inputs = data.inputs ?? {};
+    this.pendings = new Set(Object.keys(this.inputs));
     this.params = data.params;
     this.outputs = [];
     this.state = NodeState.Waiting;
@@ -74,7 +74,7 @@ export class Graph {
   }
 
   public async run(callback: FlowCallback) {
-    // Find nodes with no inputs and run them immediately.
+    // Find nodes with no pending and run them immediately.
     Object.keys(this.nodes).forEach(key => {
       const node = this.nodes[key];
       if (node.pendings.size == 0) {
